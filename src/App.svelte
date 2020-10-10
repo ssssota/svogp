@@ -1,30 +1,20 @@
 <script lang="ts">
-	export let name: string;
+	export let title: string;
+	export let description: string;
+	export let url: string;
+	export let image: string;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
+
+<svg
+	viewBox="0 0 90 55"
+	width="90mm"
+	height="55mm"
+	xmlns="http://www.w3.org/2000/svg">
+	<text>{title}</text>
+	<text>{description}</text>
+	<text>{url}</text>
+	<text>{image}</text>
+</svg>
