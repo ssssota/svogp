@@ -21,7 +21,7 @@ const getPropValueFromPropsString = (propsString: string, propName: string): str
  * @param html HTML string
  */
 export const getOGPropsFromHtml = (html: string): OGProps =>
-  [...matchAll(html, /<meta\s+(.+?=(?:(?<!\\)"(?:.*?)(?<!\\)"|(?<!\\)'(?:.*?)(?<!\\)'))\s*?\/?>/ig)].reduce((props, match) => {
+  [...matchAll(html, /<meta\s+(.+?=(?:(?<!\\)"|(?<!\\)')(?:.*?)(?:(?<!\\)"|(?<!\\)'))\s*?\/?>/ig)].reduce((props, match) => {
     const propName = getPropValueFromPropsString(match[1], 'property');
     const content = getPropValueFromPropsString(match[1], 'content');
     switch (propName) {
