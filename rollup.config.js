@@ -15,7 +15,7 @@ export default {
 		format: 'cjs',
 		dir: 'api'
 	},
-	external: ['libxmljs'],
+	external: ['libxmljs', 'fontkit'],
 	plugins: [
 		svelte({
 			generate: 'ssr',
