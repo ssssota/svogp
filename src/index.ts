@@ -2,10 +2,17 @@ import App from './App.svelte';
 import type { NowRequest, NowResponse } from '@vercel/node';
 import { getOGPropsFromUrl } from './utils';
 
-export default async (req: NowRequest, res: NowResponse): Promise<void> => {
+export default (req: NowRequest, res: NowResponse): Promise<void> => new Promise((resolve) => {
   const { url } = req.query;
-  const props = await getOGPropsFromUrl(Array.isArray(url) ? url[0] : url);
-  const { html, css } = (App as any).render(props);
-  res.setHeader('content-type', 'image/svg+xml');
-  res.send(html.replace(/<\/[0-9a-z]+>$/i, `<style>${css.code}</style>$&`));
-};
+  const fixedUrl = Array.isArray(url) ? url[0] : url;
+  getOGPropsFromUrl(fixedUrl).then((props) => {
+    if (!props.url) props.url = fixedUrl;
+    const { html, css } = (App as any).render({ url, ...props });
+    res.setHeader('content-type', 'image/svg+xml');
+    res.send(html.replace(/<\/[0-9a-z]+>$/i, `<style>${css.code}</style>$&`));
+    resolve();
+  }).catch((err) => {
+    res.status(404).end('Invalid URL: ' + err);
+    resolve();
+  });
+});

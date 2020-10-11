@@ -1,4 +1,6 @@
 import type { OGProps } from './types';
+import path from 'path';
+import fontkit from 'fontkit';
 import fetch from 'node-fetch';
 import { parseHtml } from 'libxmljs';
 
@@ -10,34 +12,37 @@ export const getOGPropsFromUrl = (url: string): Promise<OGProps> =>
   fetch(url)
     .then((res) => res.text())
     .then((html) => {
-      return parseHtml(html)
+      const props = parseHtml(html)
         .find('//meta')
         .map((elem) => {
-          const name = elem.attr('property')?.value();
+          const name = elem.attr('property')?.value() || elem.attr('name')?.value();
           const content = elem.attr('content')?.value();
           return { name, content };
         })
         .filter((prop) => !!prop.name && !!prop.content)
-        .reduce((props, prop) => {
-          switch (prop.name) {
-            case 'og:title':
-              if (props.title) break;
-              props.title = prop.content;
-              break;
-            case 'og:description':
-              if (props.description) break;
-              props.description = prop.content;
-              break;
-            case 'og:url':
-              if (props.url) break;
-              props.url = prop.content;
-              break;
-            case 'og:image':
-            case 'og:image:url':
-            case 'og:image:secure_url':
-              if (props.image) break;
-              props.image = prop.content;
-          }
-          return props;
-        }, {} as OGProps);
+        .reduce((acc, prop) => {
+          const name = prop.name.toLowerCase();
+          if (!acc.has(name)) acc.set(name, prop.content);
+          return acc;
+        }, new Map<string, string>());
+      return {
+        title: props.get('og:title') || props.get('og:site_name') || props.get('twitter:title'),
+        description: props.get('og:description') || props.get('description') || props.get('twitter:description'),
+        url: props.get('og:url'),
+        image: props.get('og:image') || props.get('twitter:image')
+      } as OGProps;
     });
+
+const font = fontkit.openSync(path.resolve(__dirname, 'noto.otf'));
+export const wrap = (text: string, width: number) => {
+  const wrappedText = [...text.trim()];
+  let currentWidth = 0;
+  font.layout(text).glyphs.forEach((glyph, index) => {
+    currentWidth += glyph.advanceWidth / 62.5;
+    if (currentWidth > width) {
+      wrappedText.splice(index, 0, '\n');
+      currentWidth = 0;
+    }
+  });
+  return wrappedText.join('');
+};

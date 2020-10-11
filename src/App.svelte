@@ -3,10 +3,10 @@
 	import OGImage from "./components/OGImage.svelte";
 	import OGTitle from "./components/OGTitle.svelte";
 	import OGDescription from "./components/OGDescription.svelte";
-	export let title: string;
-	export let description: string;
+	export let title: string | undefined;
+	export let description: string | undefined;
 	export let url: string;
-	export let image: string;
+	export let image: string | undefined;
 </script>
 
 <style>
@@ -18,10 +18,10 @@
 
 <svg
 	viewBox={`0 0 ${cardOptions.width} ${cardOptions.height}`}
-	width={`${cardOptions.width}px`}
-	height={`${cardOptions.height}px`}
+	width={cardOptions.width}
+	height={cardOptions.height}
 	xmlns="http://www.w3.org/2000/svg">
-	<OGImage {image} />
-	<OGTitle {title} {url} />
-	<OGDescription {description} />
+	<OGImage image={image || ''} />
+	<OGTitle title={title || url} {url} />
+	<OGDescription description={description || ''} />
 </svg>
