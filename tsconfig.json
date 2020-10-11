@@ -7,9 +7,5 @@
     "node_modules/*",
     "__sapper__/*",
     "public/*"
-  ],
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "esnext",
-  }
+  ]
 }
