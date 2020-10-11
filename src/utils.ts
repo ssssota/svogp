@@ -1,7 +1,7 @@
 import type { OGProps } from './types';
 import path from 'path';
 import fontkit from 'fontkit';
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import { parseHtml } from 'libxmljs';
 
 /**
@@ -34,6 +34,11 @@ export const getOGPropsFromUrl = (url: string): Promise<OGProps> =>
     });
 
 const font = fontkit.openSync(path.resolve(__dirname, 'noto.otf'));
+/**
+ * Wrap string with width
+ * @param text Target string
+ * @param width Wrap width
+ */
 export const wrap = (text: string, width: number) => {
   const wrappedText = [...text.trim()];
   let currentWidth = 0;
@@ -45,4 +50,16 @@ export const wrap = (text: string, width: number) => {
     }
   });
   return wrappedText.join('');
+};
+
+export const getDataUrlFromUrl = (url: string) => {
+  let res: Response;
+  return fetch(url)
+    .then((response) => {
+      res = response;
+      return res.buffer();
+    })
+    .then((buf) => {
+      return `data:${res.headers.get('content-type')};base64,${Buffer.from(buf).toString('base64')}`;
+    });
 };
