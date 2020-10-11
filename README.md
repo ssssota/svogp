@@ -27,3 +27,11 @@ You can embed OGP in markdown with generated SVG.
 ```
 
 ![stackoverflow](https://svogp.vercel.app/api?url=https://svelte.dev)
+
+### 日本語
+
+```
+![](https://svogp.vercel.app/api?url=https://qiita.com/ssssota)
+```
+
+![Jp sample](https://svogp.vercel.app/api?url=https://qiita.com/ssssota)
