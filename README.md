@@ -1,6 +1,6 @@
 # SVOGP
 
-You can emb OGP in markdown with SVG.
+You can embed OGP in markdown with generated SVG.
 
 ## Example
 
