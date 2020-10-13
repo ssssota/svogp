@@ -13,6 +13,7 @@
 	svg {
 		border: 1px solid #ccc;
 		background: #f5f5f5;
+		font-family: Arial, Helvetica, sans-serif;
 	}
 </style>
 
