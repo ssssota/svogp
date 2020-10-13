@@ -1,6 +1,6 @@
 # SVOGP
 
-You can emb OGP in markdown with SVG.
+You can embed OGP in markdown with generated SVG.
 
 ## Example
 
@@ -27,3 +27,11 @@ You can emb OGP in markdown with SVG.
 ```
 
 ![stackoverflow](https://svogp.vercel.app/api?url=https://svelte.dev)
+
+### Yahoo! JAPAN
+
+```
+![](https://svogp.vercel.app/api?url=https://www.yahoo.co.jp/)
+```
+
+![Yahoo! JAPAN](https://svogp.vercel.app/api?url=https://www.yahoo.co.jp/)
